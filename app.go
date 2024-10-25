@@ -26,7 +26,7 @@ func app(path string) {
 			strings.HasSuffix(filename, ".jpg") ||
 			strings.HasSuffix(filename, ".jpeg") {
 			fe := fentry{name: filename}
-			fe.hash, err = hashing.FileHash(hashing.SHA512, fe.name)
+			fe.hash, err = hashing.FileHash(hashing.MD5, fe.name)
 			if err != nil {
 				log.Fatal(err)
 			}

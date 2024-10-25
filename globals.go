@@ -1,5 +1,7 @@
 package main
 
+const VERSION = "0.0.1-alpha"
+
 type fentry struct {
 	name     string
 	sidecard string

@@ -5,7 +5,7 @@ Here are some of the places I got advice from.
 https://www.jajaldoang.com/post/go-write-log-to-file/
 
 # recursive decent
-My code was so ugly. This is AI generated and it works greate.  
+My code was so ugly. This is AI generated and it works great.  
 ```
 package main
 

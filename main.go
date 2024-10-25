@@ -13,24 +13,7 @@ func main() {
 	base := "."
 	createLog()
 
-	err := filepath.WalkDir(base, func(path string, d os.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
-
-		if d.IsDir() {
-			p := path + "/"
-			r := recursive{name: p, completed: false}
-			rentries = append(rentries, r)
-			//fmt.Println(path)
-		}
-
-		return nil
-	})
-
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
+	recursiveDecent(base)
 
 	fmt.Println("Directories: ", len(rentries))
 	log.Println("Directories: ", len(rentries))
@@ -48,6 +31,28 @@ func main() {
 
 	checkdups()
 
+}
+
+// do a recursive decent of the base directory and store the
+// directories in slice 'rentries'
+func recursiveDecent(base string) {
+	err := filepath.WalkDir(base, func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if d.IsDir() {
+			p := path + "/"
+			r := recursive{name: p, completed: false}
+			rentries = append(rentries, r)
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
 }
 
 /*
