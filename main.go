@@ -1,84 +1,75 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"log"
+
 	"os"
-	"strings"
-
-	"github.com/misterunix/sniffle/hashing"
+	"path/filepath"
 )
-
-type fentry struct {
-	name     string
-	sidecard string
-	hash     string
-}
-
-type recursive struct {
-	name      string
-	completed bool
-}
-
-var fentries []fentry
-var fedelete []fentry
-var rentries []recursive
 
 func main() {
 
-	r := recursive{name: "./", completed: false}
-	rentries = append(rentries, r)
+	base := "."
+	createLog()
 
-	for {
-		done := godown()
-		if done {
-			break
+	err := filepath.WalkDir(base, func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
 		}
+
+		if d.IsDir() {
+			p := path + "/"
+			r := recursive{name: p, completed: false}
+			rentries = append(rentries, r)
+			//fmt.Println(path)
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		fmt.Println("Error:", err)
 	}
 
-}
-
-func godown() bool {
-	var doany bool = false
+	fmt.Println("Directories: ", len(rentries))
+	log.Println("Directories: ", len(rentries))
 
 	for _, d := range rentries {
-		if d.completed {
-			continue
-		}
-		files, err := os.ReadDir(d.name)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		for _, file := range files {
-			if file.IsDir() {
-				nd := recursive{name: d.name + file.Name() + "/", completed: false}
-				rentries = append(rentries, nd)
-				doany = true
-				continue
-			}
-		}
+		dp := d.name
+		//fmt.Println("Directory: ", dp)
+		app(dp)
 	}
 
-	return doany
+	for _, fe := range fentries {
+		//fmt.Println(fe.name, fe.sidecard, fe.hash)
+		log.Println(fe.name, fe.sidecard, fe.hash)
+	}
+
+	checkdups()
+
 }
 
-func app() bool {
+/*
+func app(path string) {
 
-	files, err := os.ReadDir(d.name)
+	files, err := os.ReadDir(path)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for _, file := range files {
+
 		if file.IsDir() {
-			nd := recursive{name: d.name + file.Name() + "/", completed: false}
-			rentries = append(rentries, nd)
 			continue
 		}
-		fe := fentry{name: file.Name()}
 
+		filename := path + file.Name()
+		fmt.Println(filename)
+	}
+}
+*/
+/*
 		if strings.HasSuffix(fe.name, ".png") || strings.HasSuffix(fe.name, ".jpg") || strings.HasSuffix(fe.name, ".jpeg") {
 			fe.hash, err = hashing.FileHash(hashing.SHA512, fe.name)
 			if err != nil {
@@ -130,3 +121,5 @@ func app() bool {
 	fmt.Println("Deleted: ", len(fedelete))
 
 }
+
+*/
