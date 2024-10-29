@@ -2,7 +2,7 @@ package main
 
 const VERSION = "0.0.1-alpha"
 
-type fentry struct {
+type fileentry struct {
 	name     string
 	sidecard string
 	hash     string
@@ -13,7 +13,10 @@ type recursive struct {
 	completed bool
 }
 
-var fentries []fentry
+var FileEntry []fileentry
 
 // var fedelete []fentry
-var rentries []recursive
+var rdirectories []recursive
+
+type duplicate struct {
+	

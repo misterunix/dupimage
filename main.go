@@ -15,16 +15,20 @@ func main() {
 
 	recursiveDecent(base)
 
-	fmt.Println("Directories: ", len(rentries))
-	log.Println("Directories: ", len(rentries))
+	fmt.Println("Directories: ", len(rdirectories))
+	log.Println("Directories: ", len(rdirectories))
 
-	for _, d := range rentries {
+	for _, d := range rdirectories {
+		log.Println("Directory: ", d.name)
+	}
+
+	for _, d := range rdirectories {
 		dp := d.name
-		//fmt.Println("Directory: ", dp)
+		// log.Println("Directory: ", dp)
 		app(dp)
 	}
 
-	for _, fe := range fentries {
+	for _, fe := range FileEntry {
 		//fmt.Println(fe.name, fe.sidecard, fe.hash)
 		log.Println(fe.name, fe.sidecard, fe.hash)
 	}
@@ -44,7 +48,7 @@ func recursiveDecent(base string) {
 		if d.IsDir() {
 			p := path + "/"
 			r := recursive{name: p, completed: false}
-			rentries = append(rentries, r)
+			rdirectories = append(rdirectories, r)
 		}
 
 		return nil

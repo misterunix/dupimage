@@ -25,7 +25,9 @@ func app(path string) {
 		if strings.HasSuffix(filename, ".png") ||
 			strings.HasSuffix(filename, ".jpg") ||
 			strings.HasSuffix(filename, ".jpeg") {
-			fe := fentry{name: filename}
+
+			fe := fileentry{name: filename}
+
 			fe.hash, err = hashing.FileHash(hashing.MD5, fe.name)
 			if err != nil {
 				log.Fatal(err)
@@ -39,15 +41,15 @@ func app(path string) {
 				fe.sidecard = sidecard
 			}
 
-			fentries = append(fentries, fe)
+			FileEntry = append(FileEntry, fe)
 		}
 	}
 }
 
 func checkdups() {
 
-	for _, f1 := range fentries {
-		for _, f2 := range fentries {
+	for _, f1 := range FileEntry {
+		for _, f2 := range FileEntry {
 			if f1.name == f2.name {
 				continue
 			}
